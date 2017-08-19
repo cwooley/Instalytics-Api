@@ -12,10 +12,11 @@ class ApplicationController < ActionController::API
     # @user.posts_count = dataObj["counts"]["media"]
     # @user.followers_count = dataObj["counts"]["followed_by"]
     # @user.following_count = dataObj["counts"]["follows"]
-    byebug
+
     @user.access_token = access_token
     @user.save
-    redirect_to: 'http://localhost:3001', 
+    # render json: @user
+    redirect_to "http://localhost:3001/?id=#{@user.id}"
   end
 
 end

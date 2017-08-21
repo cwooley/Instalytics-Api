@@ -12,10 +12,27 @@ class ApplicationController < ActionController::API
     # @user.posts_count = dataObj["counts"]["media"]
     # @user.followers_count = dataObj["counts"]["followed_by"]
     # @user.following_count = dataObj["counts"]["follows"]
-
     @user.access_token = access_token
+    user_data_response = RestClient.get("https://api.instagram.com/v1/users/self/?access_token=#{@user.access_token}")
+    user_data_obj = JSON.parse(user_data_response.body)["data"]
+    @user.posts_count = user_data_obj["counts"]["media"]
+    @user.followers_count = user_data_obj["counts"]["followed_by"]
+    @user.following_count = user_data_obj["counts"]["follows"]
     @user.save
+
     # render json: @user
+    picture_response = RestClient.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{@user.access_token}")
+    picture_data_obj = JSON.parse(picture_response.body)["data"]
+    picture_data_obj.each do |picture|
+      @picture = Picture.find_or_create_by(standard_resolution_url: picture["images"]["standard_resolution"]["url"])
+      @picture.user_id = @user.id
+      @picture.likes_count = picture["likes"]["count"]
+      @picture.comments_count = picture["comments"]["count"]
+      @picture.created_time = Time.at(picture["created_time"].to_i)
+      @picture.standard_resolution_url = picture["images"]["standard_resolution"]["url"]
+      @picture.thumbnail_url = picture["images"]["thumbnail"]["url"]
+      @picture.save
+    end
     redirect_to "http://localhost:3001/?id=#{@user.id}"
   end
 

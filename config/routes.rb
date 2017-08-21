@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :pictures
-      # get '/login', to: 'auth#create'
+      get '/users/:id/pictures', to: 'users#pictures'
     end
   end
 

@@ -34,6 +34,10 @@ class Api::V1::UsersController < ApplicationController
     render json: @user
   end
 
+  def pictures
+    @user = User.find(params[:id])
+    render json: @user.pictures
+  end
 
   private
 

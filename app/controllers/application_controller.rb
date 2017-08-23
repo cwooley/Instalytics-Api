@@ -20,6 +20,8 @@ class ApplicationController < ActionController::API
     @user.following_count = user_data_obj["counts"]["follows"]
     @user.save
 
+    ####EVERYTHING WORKS UP TO HERE~
+
     # render json: @user
     picture_response = RestClient.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{@user.access_token}")
     picture_data_obj = JSON.parse(picture_response.body)["data"]
@@ -31,8 +33,6 @@ class ApplicationController < ActionController::API
       @picture.created_time = Time.at(picture["created_time"].to_i)
       @picture.standard_resolution_url = picture["images"]["standard_resolution"]["url"]
       @picture.thumbnail_url = picture["images"]["thumbnail"]["url"]
-      @picture.instagram_id = picture["id"]
-      @picture.filter = picture["filter"]
       @picture.save
       # likes_response = RestClient.get("https://api.instagram.com/v1/media/#{@picture.instagram_id}/likes?access_token=#{@user.access_token}")
       # likesDataObj = JSON.parse(likes_response)

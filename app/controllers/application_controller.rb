@@ -31,7 +31,11 @@ class ApplicationController < ActionController::API
       @picture.created_time = Time.at(picture["created_time"].to_i)
       @picture.standard_resolution_url = picture["images"]["standard_resolution"]["url"]
       @picture.thumbnail_url = picture["images"]["thumbnail"]["url"]
+      @picture.instagram_id = picture["id"]
+      @picture.filter = picture["filter"]
       @picture.save
+      # likes_response = RestClient.get("https://api.instagram.com/v1/media/#{@picture.instagram_id}/likes?access_token=#{@user.access_token}")
+      # likesDataObj = JSON.parse(likes_response)
     end
     redirect_to "https://instalytics-fe.herokuapp.com/?id=#{@user.id}"
   end

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 
   def index
-    response = RestClient.post('https://api.instagram.com/oauth/access_token', {client_secret: ENV['secret'], client_id: ENV['client_id'], redirect_uri: 'http://localhost:3000/', code: params[:code], grant_type: 'authorization_code'})
+    response = RestClient.post('https://api.instagram.com/oauth/access_token', {client_secret: ENV['secret'], client_id: ENV['client_id'], redirect_uri: 'https://instalytics-api.herokuapp.com/', code: params[:code], grant_type: 'authorization_code'})
     dataObj = JSON.parse(response.body)["user"]
     access_token = JSON.parse(response.body)["access_token"]
     @user = User.find_or_create_by(instagram_id:dataObj["id"])
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::API
       @picture.thumbnail_url = picture["images"]["thumbnail"]["url"]
       @picture.save
     end
-    redirect_to "http://localhost:3001/?id=#{@user.id}"
+    redirect_to "https://instalytics-fe.herokuapp.com/?id=#{@user.id}"
   end
 
 end

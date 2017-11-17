@@ -1,24 +1,27 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Instalytics
 
-Things you may want to cover:
+"Visualize instagram user data by posts, comments and likes"
 
-* Ruby version
+Technologies used:
 
-* System dependencies
++ Used D3 javascript library to visualize user data
++ Designed the PostgreSQL database and configured ActiveRecord associations
++ Built front end interface using React library and JavaScript
++ Used Instagram OAuth allowing users to log in with their instagram account
++ Used React Semantic UI to design front-end
 
-* Configuration
+Build date: 8/17/17 - 8/23/17
 
-* Database creation
 
-* Database initialization
++ Front-end: https://github.com/peterpapadim/instalytics-fe
++ Back-end: https://github.com/cwooley/Instalytics-Api
++ Demo Video: https://www.dropbox.com/s/ctjdjaar4jae4b8/instalytics_demo.mov?dl=0
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+Built by:
 
-* Deployment instructions
-
-* ...
++ Peter Papadimitropoulos - https://github.com/peterpapadim
++ Alex Sambvani - https://github.com/asambvani
++ Charles Wooley - https://github.com/cwooley

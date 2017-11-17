@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 
   def index
-    response = RestClient.post('https://api.instagram.com/oauth/access_token', {client_secret: ENV['secret'], client_id: ENV['client_id'], redirect_uri: 'http://localhost:3000/', code: params[:code], grant_type: 'authorization_code'})
+    response = RestClient.post('https://api.instagram.com/oauth/access_token', {client_secret: ENV['secret'], client_id: ENV['client_id'], redirect_uri: 'https://instalytics-api.herokuapp.com/', code: params[:code], grant_type: 'authorization_code'})
     dataObj = JSON.parse(response.body)["user"]
     access_token = JSON.parse(response.body)["access_token"]
     @user = User.find_or_create_by(instagram_id:dataObj["id"])
@@ -20,6 +20,8 @@ class ApplicationController < ActionController::API
     @user.following_count = user_data_obj["counts"]["follows"]
     @user.save
 
+    ####EVERYTHING WORKS UP TO HERE~
+
     # render json: @user
     picture_response = RestClient.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{@user.access_token}")
     picture_data_obj = JSON.parse(picture_response.body)["data"]
@@ -31,17 +33,11 @@ class ApplicationController < ActionController::API
       @picture.created_time = Time.at(picture["created_time"].to_i)
       @picture.standard_resolution_url = picture["images"]["standard_resolution"]["url"]
       @picture.thumbnail_url = picture["images"]["thumbnail"]["url"]
-      @picture.instagram_id = picture["id"]
-      @picture.filter = picture["filter"]
       @picture.save
       # likes_response = RestClient.get("https://api.instagram.com/v1/media/#{@picture.instagram_id}/likes?access_token=#{@user.access_token}")
       # likesDataObj = JSON.parse(likes_response)
     end
-
-
-
-
-    redirect_to "http://localhost:3001/?id=#{@user.id}"
+    redirect_to "https://instalytics-fe.herokuapp.com/?id=#{@user.id}"
   end
 
 end
